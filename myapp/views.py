@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse, JsonResponse
 from .models import Project, Task
 from .forms import CreateNewTask
@@ -10,14 +10,12 @@ def index ( request ):
          'title': title
     })
 
-
 def hello( request, username):
     print(username)
     return HttpResponse('Hello %s' % username)
 
 def about( request ):
     return HttpResponse('<h1>About Us</h1>')
-
 
 def product( request ):
     return HttpResponse('<h1>Product</h1>')
@@ -27,8 +25,6 @@ def operacion(request, numero):
         resultado = (numero_entero + 100) * 2
         return HttpResponse("El resultado es: %s" % resultado)
 
-
-# Listando todos los proyectos
 def projects ( request ):
      title_projects = "Projects"
      projects = list(Project.objects.values())
@@ -37,13 +33,18 @@ def projects ( request ):
           'projects' : projects,
      })
 
-
-# Listar una tarea
 def tasks ( request ):
     tasks = Task.objects.all()
     return render ( request, 'task.html', {'tasks' : tasks})
 
-def create_task(request): 
-     return render (request, 'create_task.html',{
+def create_task(request ):
+     if request.method == 'GET':
+        return render (request, 'create_task.html',{
           'form' : CreateNewTask()
-     })
+        })
+     else:
+        title = request.POST['title']
+        description = request.POST['description']
+        project_id = 1
+        Task.objects.create(title = title, description = description, project_id = project_id)
+        return redirect('/task')
