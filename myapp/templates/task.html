@@ -1,2 +1,11 @@
 <h1>task</h1>
-<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quam sapiente dolore culpa quo, delectus recusandae? Nostrum vel assumenda minima repellat modi vitae voluptatibus dolores distinctio voluptate, facere dolorum dicta non.</p>
+
+{% for task in tasks %}
+
+<article>
+    <h2>Task: {{ task.title }}</h2>
+    <h3>Project: {{ task.project.name }}</h3>
+    <p>Description: {{ task.description }}</p>
+</article>
+
+{% endfor %}

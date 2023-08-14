@@ -9,8 +9,6 @@ def index ( request ):
          'title': title
     })
 
-def tasks ( request ):
-    return render ( request, 'tasks.html')
 
 def hello( request, username):
     print(username)
@@ -31,18 +29,21 @@ def operacion(request, numero):
 
 # Listando todos los proyectos
 def projects ( request ):
+     title_projects = "Projects"
      projects = list(Project.objects.values())
-     print(projects)
-     return render ( request, 'proyects.html')
+     return render ( request, 'projects.html', {
+          'title_projects' : title_projects,
+          'projects' : projects,
+     })
 
 
 # Listar una tarea
-# def tasks ( request, id):
+def tasks ( request ):
     # task = Task.objects.get(id=id) 
     # task = get_object_or_404(Task, id=id)
     # return HttpResponse('<h1>Tasks: %s</h1>' % task.title)
-
-
+    tasks = Task.objects.all()
+    return render ( request, 'task.html', {'tasks' : tasks})
 
 # (int)
 # Crear una vista que reciba un numero entero que venga como parametro por la url le sume 100 y lo multiplique por 2
