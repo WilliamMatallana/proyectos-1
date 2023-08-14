@@ -47,3 +47,6 @@ def tasks ( request ):
 
 # (int)
 # Crear una vista que reciba un numero entero que venga como parametro por la url le sume 100 y lo multiplique por 2
+
+def create_task(request): 
+     return render (request, 'create_task.html',)
