@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, JsonResponse
-from.models import Project, Task
+from .models import Project, Task
+from .forms import CreateNewTask
 
 
 def index ( request ):
@@ -39,14 +40,10 @@ def projects ( request ):
 
 # Listar una tarea
 def tasks ( request ):
-    # task = Task.objects.get(id=id) 
-    # task = get_object_or_404(Task, id=id)
-    # return HttpResponse('<h1>Tasks: %s</h1>' % task.title)
     tasks = Task.objects.all()
     return render ( request, 'task.html', {'tasks' : tasks})
 
-# (int)
-# Crear una vista que reciba un numero entero que venga como parametro por la url le sume 100 y lo multiplique por 2
-
 def create_task(request): 
-     return render (request, 'create_task.html',)
+     return render (request, 'create_task.html',{
+          'form' : CreateNewTask()
+     })
