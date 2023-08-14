@@ -3,48 +3,50 @@ from django.http import HttpResponse, JsonResponse
 from .models import Project, Task
 from .forms import CreateNewTask
 
-
-def index ( request ):
+def index( request ):
     title = "Django Project!!"
-    return render ( request, 'index.html', {
-         'title': title
+    return render(request, 'index.html', {
+        'title': title
     })
 
-def hello( request, username):
+def hello( request, username ):
     print(username)
     return HttpResponse('Hello %s' % username)
 
 def about( request ):
-    return HttpResponse('<h1>About Us</h1>')
+    return HttpResponse('<h1>About us</h1>')
 
-def product( request ):
-    return HttpResponse('<h1>Product</h1>')
+def operation( request, number ):
+    result = (number + 100) * 2
+    return HttpResponse('<h2>El resultado de (%s + 100) * 2 es %s </h2>' % (number, result))
 
-def operacion(request, numero):
-        numero_entero = int(numero)
-        resultado = (numero_entero + 100) * 2
-        return HttpResponse("El resultado es: %s" % resultado)
+# Listando todos los proyectos
+def projects( request ):
+    title = 'Projects'
+    projects = list(Project.objects.values())
+    return render(request, 'projects.html', {
+        'title': title,
+        'projects': projects
+    })
 
-def projects ( request ):
-     title_projects = "Projects"
-     projects = list(Project.objects.values())
-     return render ( request, 'projects.html', {
-          'title_projects' : title_projects,
-          'projects' : projects,
-     })
-
-def tasks ( request ):
+# Listar una tarea
+def tasks( request ):
+    # task = Task.objects.get(id=id)
+    # task = get_object_or_404(Task, id=id)
+    # return HttpResponse("<h1>Task: %s</h1>" % task.title)
     tasks = Task.objects.all()
-    return render ( request, 'task.html', {'tasks' : tasks})
+    return render( request, 'tasks.html', {
+        'tasks': tasks
+    })
 
-def create_task(request ):
-     if request.method == 'GET':
-        return render (request, 'create_task.html',{
-          'form' : CreateNewTask()
+def create_task( request ):
+    if request.method == 'GET':    
+        return render( request, 'create_task.html', {
+            'form': CreateNewTask()
         })
-     else:
+    else: 
         title = request.POST['title']
         description = request.POST['description']
         project_id = 1
-        Task.objects.create(title = title, description = description, project_id = project_id)
-        return redirect('/task')
+        Task.objects.create(title=title, description=description, project_id=project_id)
+        return redirect('/tasks')
