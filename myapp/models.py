@@ -18,9 +18,7 @@ class Task(models.Model):
     title = models.CharField(max_length=200, help_text='Ingrese el titulo de la tarea')
     description = models.TextField(help_text='Ingrese la descripcion de la tarea')
     Project = models.ForeignKey(Project, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return self.title + ' - ' + str(self.Project.name)
+    done = models.BooleanField(default = False)
     
 
     def __str__(self) -> str:
